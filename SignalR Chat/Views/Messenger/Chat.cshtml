@@ -1,0 +1,27 @@
+﻿@model VmChat
+@inject UserManager<IdentityUser> _userManager
+@{
+    ViewData["Title"] = "Chat";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>Messenger with @Model.Reciever.Name</h1>
+            <div class="messageBox">
+                @foreach (var item in Model.Messages)
+                {
+                    <div class="@(item.SenderId==_userManager.GetUserId(User)?"sender":"reciever")">
+                        @item.Text
+                    </div>
+                }
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="type message" id="message">
+                <input hidden id="recieverid" value="@Model.Reciever.Id">
+                <input hidden id="senderid" value="@_userManager.GetUserId(User)">
+                <button class="btn btn-outline-secondary" type="button" id="sendMessage">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
